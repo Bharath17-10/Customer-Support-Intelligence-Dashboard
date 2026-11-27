@@ -10,7 +10,7 @@ Streamlit customer-support ticket management backed by the project's trained TF-
 - Trains separate department and urgency models and saves them to the existing `models/` paths.
 - Classifies customer submissions with those models, then saves them in SQLite as Pending.
 - Persists status updates and displays database-backed ticket metrics and analytics.
-- Saves internal response notes on customer tickets; notes are not emailed to customers.
+- Saves internal response notes on tickets, including demo records; notes are not emailed to customers.
 - Keeps historical dataset examples out of the live ticket queue unless an admin explicitly imports them as `Demo / Dataset Imported`.
 - Keeps batch CSV predictions as a preview by default; users can inspect a selected query and explicitly save one or all readable results as demo records for access in Ticket management without adding them to live customer metrics.
 
@@ -65,7 +65,7 @@ Scikit-learn is pinned to 1.8.0 to match the serialized TF-IDF models.
 
 Customer tickets and status updates are stored in `data\support_tickets.db`. Demo imports are clearly marked and excluded from live customer metrics. The database starts without sample customer tickets. On **Batch processing**, choose a row in **Select a query to inspect** to see its complete text and predictions. Use **Save selected query as demo** for one row or **Save classified tickets as demos** for all readable rows; find saved entries in **Ticket management** by selecting **All including demo records**. Re-importing the same CSV skips rows already saved.
 
-Open a customer ticket in **Ticket management** to view its details, update its status, and add response notes. Response notes are stored in the local database and are not sent as email.
+Open a ticket in **Ticket management** to view its details and add response notes. Status can be updated on customer tickets; demo records remain marked as demos. Response notes are stored in the local database and are not sent as email.
 
 ## Optional admin dataset import
 

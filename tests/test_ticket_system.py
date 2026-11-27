@@ -117,6 +117,27 @@ class TicketSystemTests(unittest.TestCase):
         delete_ticket(ticket_id, self.database_path)
         self.assertEqual(get_ticket_replies(ticket_id, self.database_path), [])
 
+    def test_demo_ticket_can_have_internal_response_notes(self):
+        import_dataset_tickets(
+            pd.DataFrame(
+                [
+                    {
+                        "ticket_text": "Historical dataset complaint",
+                        "department": "Shipping",
+                        "urgency": "High",
+                    }
+                ]
+            ),
+            self.database_path,
+        )
+        ticket_id = get_all_tickets(self.database_path).iloc[0]["ticket_id"]
+
+        add_ticket_reply(ticket_id, "Demo follow-up note.", self.database_path)
+
+        replies = get_ticket_replies(ticket_id, self.database_path)
+        self.assertEqual(len(replies), 1)
+        self.assertEqual(replies[0]["reply_text"], "Demo follow-up note.")
+
     def test_dashboard_statistics_exclude_demo_examples(self):
         create_ticket(
             customer_name="Customer",

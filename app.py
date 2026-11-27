@@ -378,7 +378,7 @@ def _render_overview(statistics, dashboard_data):
     _render_analytics(customer_tickets, dashboard_data)
 
 
-def _render_ticket_details(ticket_id, key_suffix):
+def _render_ticket_details(ticket_id, key_suffix, show_response_notes=False):
     try:
         ticket = get_ticket_by_id(ticket_id, DATABASE_PATH)
     except sqlite3.Error as error:
@@ -419,55 +419,59 @@ def _render_ticket_details(ticket_id, key_suffix):
 
     if ticket["record_type"] == DEMO_RECORD:
         st.caption("Demo records are excluded from live customer ticket counts.")
-        return
-
-    with st.form(f"status_form_{key_suffix}_{ticket_id}"):
-        new_status = st.selectbox(
-            "Update ticket status",
-            STATUSES,
-            index=STATUSES.index(ticket["status"]),
-            key=f"status_{key_suffix}_{ticket_id}",
-        )
-        submitted = st.form_submit_button("Save status")
-    if submitted:
-        try:
-            update_ticket_status(ticket_id, new_status, DATABASE_PATH)
-        except (ValueError, sqlite3.Error) as error:
-            st.error(f"Could not update ticket status: {error}")
-        else:
-            st.success("Ticket status updated.")
-            st.rerun()
-
-    st.subheader("Response notes")
-    st.caption("Notes are saved in this app only; they are not emailed to the customer.")
-    try:
-        replies = get_ticket_replies(ticket_id, DATABASE_PATH)
-    except sqlite3.Error as error:
-        st.error(f"Could not load response notes: {error}")
-        return
-    if replies:
-        for reply in replies:
-            st.markdown(f"**{reply['author']} · {reply['created_at']}**")
-            st.text(reply["reply_text"])
     else:
-        st.info("No response notes have been added to this ticket.")
+        with st.form(f"status_form_{key_suffix}_{ticket_id}"):
+            new_status = st.selectbox(
+                "Update ticket status",
+                STATUSES,
+                index=STATUSES.index(ticket["status"]),
+                key=f"status_{key_suffix}_{ticket_id}",
+            )
+            submitted = st.form_submit_button("Save status")
+        if submitted:
+            try:
+                update_ticket_status(ticket_id, new_status, DATABASE_PATH)
+            except (ValueError, sqlite3.Error) as error:
+                st.error(f"Could not update ticket status: {error}")
+            else:
+                st.success("Ticket status updated.")
+                st.rerun()
 
-    with st.form(f"response_note_form_{ticket_id}"):
-        response_text = st.text_area(
-            "Write a response note",
-            key=f"response_note_{ticket_id}",
-            max_chars=5000,
-            placeholder="Record the response or next step for this ticket...",
+    if show_response_notes:
+        st.subheader("Response notes")
+        st.caption(
+            "Notes are saved in this app only; they are not emailed to the customer."
         )
-        reply_submitted = st.form_submit_button("Save response note", type="primary")
-    if reply_submitted:
         try:
-            add_ticket_reply(ticket_id, response_text, DATABASE_PATH)
-        except (ValueError, sqlite3.Error) as error:
-            st.error(f"Could not save response note: {error}")
+            replies = get_ticket_replies(ticket_id, DATABASE_PATH)
+        except sqlite3.Error as error:
+            st.error(f"Could not load response notes: {error}")
+            return
+        if replies:
+            for reply in replies:
+                st.markdown(f"**{reply['author']} · {reply['created_at']}**")
+                st.text(reply["reply_text"])
         else:
-            st.success("Response note saved. It was not emailed to the customer.")
-            st.rerun()
+            st.info("No response notes have been added to this ticket.")
+
+        with st.form(f"response_note_form_{ticket_id}"):
+            response_text = st.text_area(
+                "Write a response note",
+                key=f"response_note_{ticket_id}",
+                max_chars=5000,
+                placeholder="Record the response or next step for this ticket...",
+            )
+            reply_submitted = st.form_submit_button(
+                "Save response note", type="primary"
+            )
+        if reply_submitted:
+            try:
+                add_ticket_reply(ticket_id, response_text, DATABASE_PATH)
+            except (ValueError, sqlite3.Error) as error:
+                st.error(f"Could not save response note: {error}")
+            else:
+                st.success("Response note saved. It was not emailed to the customer.")
+                st.rerun()
 
 
 def _render_ticket_management(tickets):
@@ -578,6 +582,7 @@ def _render_ticket_management(tickets):
         _render_ticket_details(
             st.session_state["selected_ticket_id"],
             "management",
+            show_response_notes=True,
         )
 
 
