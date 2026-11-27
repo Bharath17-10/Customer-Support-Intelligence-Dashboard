@@ -1,0 +1,116 @@
+{
+  "department": [
+    {
+      "ticket_text": "i cannot upload a document because the page shows an error please let me know what i should do next",
+      "actual": "Technical",
+      "predicted": "Account"
+    },
+    {
+      "ticket_text": "i received alerts for logins i did not make treat this as a security emergency this has happened more than once",
+      "actual": "Account",
+      "predicted": "Shipping"
+    },
+    {
+      "ticket_text": "my account is being charged repeatedly for transactions i did not make this is urgent please let me know what i should do next",
+      "actual": "Billing",
+      "predicted": "Account"
+    },
+    {
+      "ticket_text": "the website is not loading correctly on my browser i have already tried again but the issue remains",
+      "actual": "Technical",
+      "predicted": "Billing"
+    },
+    {
+      "ticket_text": "a large unauthorized payment was taken from my bank account stop further charges immediately",
+      "actual": "Billing",
+      "predicted": "Account"
+    },
+    {
+      "ticket_text": "can i update the delivery instructions for my parcel? i have already tried again but the issue remains",
+      "actual": "Shipping",
+      "predicted": "Billing"
+    },
+    {
+      "ticket_text": "the platform appears compromised and sensitive data may be exposed urgent response required kindly check this and update me",
+      "actual": "Technical",
+      "predicted": "Shipping"
+    },
+    {
+      "ticket_text": "the courier delivered my package to an unknown person and it contains sensitive materials i have already tried again but the issue remains",
+      "actual": "Shipping",
+      "predicted": "Billing"
+    },
+    {
+      "ticket_text": "i am unable to verify my email address i have already tried again but the issue remains",
+      "actual": "Account",
+      "predicted": "Billing"
+    }
+  ],
+  "urgency": [
+    {
+      "ticket_text": "my profile is locked after i entered the wrong password kindly check this and update me",
+      "actual": "Medium",
+      "predicted": "High"
+    },
+    {
+      "ticket_text": "i cannot upload a document because the page shows an error please let me know what i should do next",
+      "actual": "Medium",
+      "predicted": "High"
+    },
+    {
+      "ticket_text": "i received alerts for logins i did not make treat this as a security emergency this has happened more than once",
+      "actual": "Critical",
+      "predicted": "Medium"
+    },
+    {
+      "ticket_text": "i suspect my account has been hacked and private information may be at risk please let me know what i should do next",
+      "actual": "Critical",
+      "predicted": "High"
+    },
+    {
+      "ticket_text": "the tracking page shows an incorrect delivery address please let me know what i should do next",
+      "actual": "Medium",
+      "predicted": "High"
+    },
+    {
+      "ticket_text": "my login is blocked and i cannot access important information this has happened more than once",
+      "actual": "High",
+      "predicted": "Medium"
+    },
+    {
+      "ticket_text": "please send me a copy of my previous payment receipt i have already tried again but the issue remains",
+      "actual": "Low",
+      "predicted": "Medium"
+    },
+    {
+      "ticket_text": "i cannot reset my password because the reset email never arrives",
+      "actual": "Medium",
+      "predicted": "High"
+    },
+    {
+      "ticket_text": "i would like to understand the tax amount on my invoice kindly check this and update me",
+      "actual": "Low",
+      "predicted": "Medium"
+    },
+    {
+      "ticket_text": "i would like to update my registered phone number please let me know what i should do next",
+      "actual": "Low",
+      "predicted": "High"
+    },
+    {
+      "ticket_text": "my subscription was renewed without my approval please investigate urgently this has happened more than once",
+      "actual": "High",
+      "predicted": "Low"
+    },
+    {
+      "ticket_text": "multiple fraudulent charges appeared on my card please block billing now i have already tried again but the issue remains",
+      "actual": "Critical",
+      "predicted": "Medium"
+    },
+    {
+      "ticket_text": "unauthorized access is happening on my account right now please lock it immediately i have already tried again but the issue remains",
+      "actual": "Critical",
+      "predicted": "Medium"
+    }
+  ]
+}

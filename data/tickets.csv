@@ -1,0 +1,161 @@
+ticket_text,department,urgency
+The service has stopped working for our team and we cannot continue our work. Please let me know what I should do next.,Technical,High
+Where can I view my saved account details? This has happened more than once.,Account,Low
+My login is blocked and I cannot access important information. This has happened more than once.,Account,High
+"Can you explain how to clear the application cache? I have already tried again, but the issue remains.",Technical,Low
+The package contains important items and tracking has not updated for several days. Kindly check this and update me.,Shipping,High
+How can I change the name displayed on my profile?,Account,Low
+The courier attempted delivery when nobody was available. What should I do? Kindly check this and update me.,Shipping,Medium
+I was charged twice for the same order. Please check this. Please let me know what I should do next.,Billing,Medium
+The tracking page shows an incorrect delivery address. Please let me know what I should do next.,Shipping,Medium
+The service has stopped working for our team and we cannot continue our work. Please let me know what I should do next.,Technical,High
+A large unauthorized payment was taken from my bank account. Stop further charges immediately.,Billing,Critical
+My urgent package is delayed and I need it before tomorrow.,Shipping,High
+A critical shipment containing essential equipment is missing. Escalate immediately. Please let me know what I should do next.,Shipping,Critical
+My discount was not applied to the final bill. Kindly check this and update me.,Billing,Medium
+My account details are incorrect and I cannot edit them. Please let me know what I should do next.,Account,Medium
+Could you tell me the estimated delivery date for my order?,Shipping,Low
+I have a question about the invoice for my recent order.,Billing,Low
+"The refund has not appeared in my account after several days. I have already tried again, but the issue remains.",Billing,Medium
+"The website is not loading correctly on my browser. I have already tried again, but the issue remains.",Technical,Medium
+"Can I update the delivery instructions for my parcel? I have already tried again, but the issue remains.",Shipping,Low
+I may be losing money due to repeated unauthorized deductions. Escalate this immediately. Kindly check this and update me.,Billing,Critical
+"Our production system is unavailable and critical transactions are failing. I have already tried again, but the issue remains.",Technical,Critical
+The tracking page shows an incorrect delivery address. Please let me know what I should do next.,Shipping,Medium
+I cannot update the phone number linked to my account. This has happened more than once.,Account,Medium
+"Please send me a copy of my previous payment receipt. I have already tried again, but the issue remains.",Billing,Low
+The payment receipt is missing from my account. This has happened more than once.,Billing,Medium
+A security vulnerability is exposing customer information. Please escalate immediately. Please let me know what I should do next.,Technical,Critical
+Please confirm whether weekend delivery is available. Kindly check this and update me.,Shipping,Low
+"I keep getting a server error whenever I try to access my account. I have already tried again, but the issue remains.",Technical,High
+A critical shipment containing essential equipment is missing. Escalate immediately. Please let me know what I should do next.,Shipping,Critical
+A time-sensitive medical package has not arrived and is urgently needed.,Shipping,Critical
+"My order is missing and customer support has not provided an update. I have already tried again, but the issue remains.",Shipping,High
+I suspect my account has been hacked and private information may be at risk. Please let me know what I should do next.,Account,Critical
+I would like to understand the tax amount on my invoice. Kindly check this and update me.,Billing,Low
+My account was disabled unexpectedly and I need it restored quickly. Please let me know what I should do next.,Account,High
+The app keeps logging me out while I am using it. This has happened more than once.,Technical,Medium
+"Multiple fraudulent charges appeared on my card. Please block billing now. I have already tried again, but the issue remains.",Billing,Critical
+The entire service is down for all our users and business operations have stopped.,Technical,Critical
+The payment receipt is missing from my account. This has happened more than once.,Billing,Medium
+"Can I update the delivery instructions for my parcel? I have already tried again, but the issue remains.",Shipping,Low
+Notifications are not appearing even though they are enabled. Kindly check this and update me.,Technical,Medium
+I need instructions for updating the mobile application. Kindly check this and update me.,Technical,Low
+The application is failing during every login attempt and I need this fixed quickly. Kindly check this and update me.,Technical,High
+"I am unable to verify my email address. I have already tried again, but the issue remains.",Account,Medium
+The search feature is a little difficult to use. This has happened more than once.,Technical,Low
+The checkout page is broken and I cannot place an important order.,Technical,High
+"I am unable to verify my email address. I have already tried again, but the issue remains.",Account,Medium
+The courier attempted delivery when nobody was available. What should I do? Kindly check this and update me.,Shipping,Medium
+The website is unavailable and customers cannot complete purchases. This has happened more than once.,Technical,High
+I was charged twice for the same order. Please check this. Please let me know what I should do next.,Billing,Medium
+Can I add another email address to my profile? Kindly check this and update me.,Account,Low
+The website is unavailable and customers cannot complete purchases. This has happened more than once.,Technical,High
+My package has not moved from the sorting facility for three days.,Shipping,Medium
+My card was charged but the order is still showing unpaid. Please resolve this soon.,Billing,High
+The platform appears compromised and sensitive data may be exposed. Urgent response required. Kindly check this and update me.,Technical,Critical
+I am locked out of my account and need access to complete an important task.,Account,High
+My discount was not applied to the final bill. Kindly check this and update me.,Billing,Medium
+I received alerts for logins I did not make. Treat this as a security emergency. This has happened more than once.,Account,Critical
+My delivery was cancelled without explanation. I need immediate assistance. This has happened more than once.,Shipping,High
+The delivery driver took the package to the wrong address. Please resolve this quickly. Please let me know what I should do next.,Shipping,High
+My account is being charged repeatedly for transactions I did not make. This is urgent. Please let me know what I should do next.,Billing,Critical
+The checkout page is broken and I cannot place an important order.,Technical,High
+My account details are incorrect and I cannot edit them. Please let me know what I should do next.,Account,Medium
+"The refund is overdue and this is causing a serious problem. I have already tried again, but the issue remains.",Billing,High
+"I cannot access my account after changing my password. Please help urgently. I have already tried again, but the issue remains.",Account,High
+All users are unable to access the system during a critical business operation. This has happened more than once.,Technical,Critical
+I cannot upload a document because the page shows an error. Please let me know what I should do next.,Technical,Medium
+My package has not moved from the sorting facility for three days.,Shipping,Medium
+Can you clarify the monthly subscription amount? This has happened more than once.,Billing,Low
+I cannot reset my password because the reset email never arrives.,Account,Medium
+The package contains important items and tracking has not updated for several days. Kindly check this and update me.,Shipping,High
+The help page loads slowly sometimes. Is this expected? Please let me know what I should do next.,Technical,Low
+My urgent shipment is lost and the contents are required for an emergency. This has happened more than once.,Shipping,Critical
+"My order is marked delivered but I have not received it. I have already tried again, but the issue remains.",Shipping,Medium
+I am locked out of my account and need access to complete an important task.,Account,High
+"Unauthorized access is happening on my account right now. Please lock it immediately. I have already tried again, but the issue remains.",Account,Critical
+My urgent package is delayed and I need it before tomorrow.,Shipping,High
+Can I add another email address to my profile? Kindly check this and update me.,Account,Low
+My account is being charged repeatedly for transactions I did not make. This is urgent. Please let me know what I should do next.,Billing,Critical
+Someone has taken control of my account and changed the recovery details. Secure it immediately.,Account,Critical
+I have been charged an extra amount and need an immediate correction. Please let me know what I should do next.,Billing,High
+I would like to know how to track my package. Please let me know what I should do next.,Shipping,Low
+Can you clarify the monthly subscription amount? This has happened more than once.,Billing,Low
+"Please tell me how to change my account preferences. I have already tried again, but the issue remains.",Account,Low
+There are several unknown transactions on my account and I need urgent help. This has happened more than once.,Billing,Critical
+Please confirm whether weekend delivery is available. Kindly check this and update me.,Shipping,Low
+Where can I find the tracking number for my shipment? This has happened more than once.,Shipping,Low
+"Can you explain how to clear the application cache? I have already tried again, but the issue remains.",Technical,Low
+My card was charged but the order is still showing unpaid. Please resolve this soon.,Billing,High
+My login is blocked and I cannot access important information. This has happened more than once.,Account,High
+I would like to update my registered phone number. Please let me know what I should do next.,Account,Low
+I suspect my account has been hacked and private information may be at risk. Please let me know what I should do next.,Account,Critical
+My urgent shipment is lost and the contents are required for an emergency. This has happened more than once.,Shipping,Critical
+My account is being used by someone else and I need an urgent security response. Kindly check this and update me.,Account,Critical
+Could you tell me the estimated delivery date for my order?,Shipping,Low
+I cannot update the phone number linked to my account. This has happened more than once.,Account,Medium
+"Unauthorized access is happening on my account right now. Please lock it immediately. I have already tried again, but the issue remains.",Account,Critical
+Someone has taken control of my account and changed the recovery details. Secure it immediately.,Account,Critical
+My profile is locked after I entered the wrong password. Kindly check this and update me.,Account,Medium
+My subscription was renewed without my approval. Please investigate urgently. This has happened more than once.,Billing,High
+Where can I view my saved account details? This has happened more than once.,Account,Low
+My account is being used by someone else and I need an urgent security response. Kindly check this and update me.,Account,Critical
+My delivery was cancelled without explanation. I need immediate assistance. This has happened more than once.,Shipping,High
+I cannot reset my password because the reset email never arrives.,Account,Medium
+My subscription was renewed without my approval. Please investigate urgently. This has happened more than once.,Billing,High
+The platform appears compromised and sensitive data may be exposed. Urgent response required. Kindly check this and update me.,Technical,Critical
+The help page loads slowly sometimes. Is this expected? Please let me know what I should do next.,Technical,Low
+All users are unable to access the system during a critical business operation. This has happened more than once.,Technical,Critical
+How can I change the name displayed on my profile?,Account,Low
+My account was disabled unexpectedly and I need it restored quickly. Please let me know what I should do next.,Account,High
+"Multiple fraudulent charges appeared on my card. Please block billing now. I have already tried again, but the issue remains.",Billing,Critical
+"The courier delivered my package to an unknown person and it contains sensitive materials. I have already tried again, but the issue remains.",Shipping,Critical
+My invoice shows an incorrect amount and I need it corrected.,Billing,Medium
+I would like to know how to track my package. Please let me know what I should do next.,Shipping,Low
+My invoice shows an incorrect amount and I need it corrected.,Billing,Medium
+The application is failing during every login attempt and I need this fixed quickly. Kindly check this and update me.,Technical,High
+Notifications are not appearing even though they are enabled. Kindly check this and update me.,Technical,Medium
+My profile is locked after I entered the wrong password. Kindly check this and update me.,Account,Medium
+I have a question about the invoice for my recent order.,Billing,Low
+Someone changed my account details without my permission. Please investigate. Kindly check this and update me.,Account,High
+I may be losing money due to repeated unauthorized deductions. Escalate this immediately. Kindly check this and update me.,Billing,Critical
+"Our production system is unavailable and critical transactions are failing. I have already tried again, but the issue remains.",Technical,Critical
+The search feature is a little difficult to use. This has happened more than once.,Technical,Low
+My shipment is delayed beyond the expected delivery date. This has happened more than once.,Shipping,Medium
+Where can I find the settings to change my notification preferences?,Technical,Low
+"The refund has not appeared in my account after several days. I have already tried again, but the issue remains.",Billing,Medium
+I need instructions for updating the mobile application. Kindly check this and update me.,Technical,Low
+"My order is missing and customer support has not provided an update. I have already tried again, but the issue remains.",Shipping,High
+An essential emergency delivery is missing and there is no tracking update. Kindly check this and update me.,Shipping,Critical
+I would like to update my registered phone number. Please let me know what I should do next.,Account,Low
+The delivery driver took the package to the wrong address. Please resolve this quickly. Please let me know what I should do next.,Shipping,High
+There are several unknown transactions on my account and I need urgent help. This has happened more than once.,Billing,Critical
+"My order is marked delivered but I have not received it. I have already tried again, but the issue remains.",Shipping,Medium
+"Please tell me how to change my account preferences. I have already tried again, but the issue remains.",Account,Low
+A time-sensitive medical package has not arrived and is urgently needed.,Shipping,Critical
+Where can I find the settings to change my notification preferences?,Technical,Low
+Could you explain the service charge shown on my bill? Please let me know what I should do next.,Billing,Low
+A security vulnerability is exposing customer information. Please escalate immediately. Please let me know what I should do next.,Technical,Critical
+I received alerts for logins I did not make. Treat this as a security emergency. This has happened more than once.,Account,Critical
+I cannot upload a document because the page shows an error. Please let me know what I should do next.,Technical,Medium
+"I cannot access my account after changing my password. Please help urgently. I have already tried again, but the issue remains.",Account,High
+"The courier delivered my package to an unknown person and it contains sensitive materials. I have already tried again, but the issue remains.",Shipping,Critical
+The application crashes when I try to open the order history page.,Technical,Medium
+An essential emergency delivery is missing and there is no tracking update. Kindly check this and update me.,Shipping,Critical
+Where can I find the tracking number for my shipment? This has happened more than once.,Shipping,Low
+The app keeps logging me out while I am using it. This has happened more than once.,Technical,Medium
+The application crashes when I try to open the order history page.,Technical,Medium
+I cannot complete an urgent payment because the billing page keeps failing. Kindly check this and update me.,Billing,High
+"Please send me a copy of my previous payment receipt. I have already tried again, but the issue remains.",Billing,Low
+I would like to understand the tax amount on my invoice. Kindly check this and update me.,Billing,Low
+Someone changed my account details without my permission. Please investigate. Kindly check this and update me.,Account,High
+"The refund is overdue and this is causing a serious problem. I have already tried again, but the issue remains.",Billing,High
+My shipment is delayed beyond the expected delivery date. This has happened more than once.,Shipping,Medium
+I have been charged an extra amount and need an immediate correction. Please let me know what I should do next.,Billing,High
+A large unauthorized payment was taken from my bank account. Stop further charges immediately.,Billing,Critical
+"The website is not loading correctly on my browser. I have already tried again, but the issue remains.",Technical,Medium
+"I keep getting a server error whenever I try to access my account. I have already tried again, but the issue remains.",Technical,High
+The entire service is down for all our users and business operations have stopped.,Technical,Critical
+Could you explain the service charge shown on my bill? Please let me know what I should do next.,Billing,Low
+I cannot complete an urgent payment because the billing page keeps failing. Kindly check this and update me.,Billing,High

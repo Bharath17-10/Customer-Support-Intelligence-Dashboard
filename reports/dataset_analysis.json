@@ -1,0 +1,63 @@
+{
+  "source": ".\\data\\tickets.csv",
+  "input_records": 160,
+  "missing_value_records": 0,
+  "empty_value_records": 0,
+  "duplicate_records": 80,
+  "usable_records": 80,
+  "department_distribution": {
+    "Account": 20,
+    "Billing": 20,
+    "Shipping": 20,
+    "Technical": 20
+  },
+  "urgency_distribution": {
+    "Critical": 20,
+    "High": 20,
+    "Low": 20,
+    "Medium": 20
+  },
+  "random_seed": 42,
+  "split_distribution": {
+    "department": {
+      "train": {
+        "Account": 12,
+        "Billing": 12,
+        "Shipping": 12,
+        "Technical": 12
+      },
+      "validation": {
+        "Account": 4,
+        "Billing": 4,
+        "Shipping": 4,
+        "Technical": 4
+      },
+      "test": {
+        "Account": 4,
+        "Billing": 4,
+        "Shipping": 4,
+        "Technical": 4
+      }
+    },
+    "urgency": {
+      "train": {
+        "Critical": 12,
+        "High": 12,
+        "Low": 12,
+        "Medium": 12
+      },
+      "validation": {
+        "Critical": 4,
+        "High": 4,
+        "Low": 4,
+        "Medium": 4
+      },
+      "test": {
+        "Critical": 4,
+        "High": 4,
+        "Low": 4,
+        "Medium": 4
+      }
+    }
+  }
+}

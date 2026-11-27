@@ -1,0 +1,8 @@
+streamlit>=1.49
+pandas>=2.0
+scikit-learn==1.8.0
+joblib>=1.3
+numpy>=1.24
+plotly>=5.18
+# Optional improved-model experiment:
+# sentence-transformers>=2.6
