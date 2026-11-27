@@ -16,12 +16,14 @@ from src.database import (
     DEFAULT_DATABASE_PATH,
     DEMO_RECORD,
     STATUSES,
+    add_ticket_reply,
     create_ticket,
     get_all_tickets,
     get_dashboard_statistics,
     get_department_statistics,
     get_priority_statistics,
     get_ticket_by_id,
+    get_ticket_replies,
     initialize_database,
     update_ticket_status,
 )
@@ -35,6 +37,7 @@ from src.ticket_manager import (
     classify_complaint,
     display_priority,
     import_dataset_tickets,
+    import_batch_predictions,
     recommended_support,
     validate_customer_submission,
 )
@@ -107,10 +110,6 @@ st.markdown(
     }
     [data-testid="stMetricLabel"] { color: var(--muted); font-weight: 600; }
     [data-testid="stMetricValue"] { color: var(--navy); }
-    div.stButton > button[kind="primary"] {
-        background: var(--navy); border-color: var(--navy); border-radius: 9px;
-        color: #ffffff !important;
-    }
     [data-testid="stMain"] [data-testid="stButton"] > button {
         color: var(--navy) !important;
         background: var(--surface) !important;
@@ -121,9 +120,17 @@ st.markdown(
         background: #eef4ff !important;
         border-color: var(--blue) !important;
     }
+    [data-testid="stMain"] [data-testid="stButton"] > button[kind="primary"] {
+        background: var(--navy) !important; border-color: var(--navy) !important;
+        border-radius: 9px; color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff;
+    }
     [data-testid="stMain"] [data-testid="stFormSubmitButton"] > button,
     [data-testid="stMain"] [data-testid="stDownloadButton"] > button {
         color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff;
+        background: var(--blue) !important;
+        border: 1px solid var(--blue) !important;
         border-radius: 9px;
     }
     .category-card, .sample-card {
@@ -431,6 +438,37 @@ def _render_ticket_details(ticket_id, key_suffix):
             st.success("Ticket status updated.")
             st.rerun()
 
+    st.subheader("Response notes")
+    st.caption("Notes are saved in this app only; they are not emailed to the customer.")
+    try:
+        replies = get_ticket_replies(ticket_id, DATABASE_PATH)
+    except sqlite3.Error as error:
+        st.error(f"Could not load response notes: {error}")
+        return
+    if replies:
+        for reply in replies:
+            st.markdown(f"**{reply['author']} · {reply['created_at']}**")
+            st.text(reply["reply_text"])
+    else:
+        st.info("No response notes have been added to this ticket.")
+
+    with st.form(f"response_note_form_{ticket_id}"):
+        response_text = st.text_area(
+            "Write a response note",
+            key=f"response_note_{ticket_id}",
+            max_chars=5000,
+            placeholder="Record the response or next step for this ticket...",
+        )
+        reply_submitted = st.form_submit_button("Save response note", type="primary")
+    if reply_submitted:
+        try:
+            add_ticket_reply(ticket_id, response_text, DATABASE_PATH)
+        except (ValueError, sqlite3.Error) as error:
+            st.error(f"Could not save response note: {error}")
+        else:
+            st.success("Response note saved. It was not emailed to the customer.")
+            st.rerun()
+
 
 def _render_ticket_management(tickets):
     st.title("Ticket management")
@@ -710,6 +748,61 @@ def _render_batch_processing(models):
     if selected_priorities:
         visible = visible[visible["display_priority"].isin(selected_priorities)]
     st.dataframe(visible, width="stretch", hide_index=True)
+    if not visible.empty:
+        selected_index = st.selectbox(
+            "Select a query to inspect",
+            visible.index.tolist(),
+            format_func=lambda row_index: (
+                f"Row {row_index + 1}: "
+                f"{str(data.loc[row_index, 'ticket_text']).strip()[:100]}"
+            ),
+            key="batch_query_selection",
+        )
+        selected_row = data.loc[selected_index]
+        st.subheader("Selected query details")
+        st.info(str(selected_row["ticket_text"]))
+        prediction_columns = st.columns(2)
+        prediction_columns[0].metric(
+            "Predicted department", selected_row["display_department"]
+        )
+        prediction_columns[1].metric(
+            "Predicted priority", selected_row["display_priority"]
+        )
+        if selected_row["classification_error"]:
+            st.warning(selected_row["classification_error"])
+        else:
+            with st.form("batch_selected_demo_import_form"):
+                st.caption(
+                    "Save only this query as a demo ticket. You can then find "
+                    "it in Ticket management → All including demo records."
+                )
+                selected_confirmed = st.checkbox(
+                    "I understand this will be marked as a demo record.",
+                    key="batch_selected_demo_confirm",
+                )
+                selected_submitted = st.form_submit_button(
+                    "Save selected query as demo"
+                )
+            if selected_submitted:
+                if not selected_confirmed:
+                    st.error(
+                        "Confirm that this query will be marked as a demo record."
+                    )
+                else:
+                    try:
+                        outcome = import_batch_predictions(
+                            data.loc[[selected_index]],
+                            uploaded.getvalue(),
+                            DATABASE_PATH,
+                        )
+                    except (ValueError, sqlite3.Error) as error:
+                        st.error(f"Could not save selected query: {error}")
+                    else:
+                        st.success(
+                            "Selected query saved as a demo ticket. "
+                            f"Imported: {outcome['imported']:,}; "
+                            f"already saved: {outcome['skipped']:,}."
+                        )
     st.download_button(
         "Download classified CSV",
         data=data.to_csv(index=False).encode("utf-8"),
@@ -718,8 +811,41 @@ def _render_batch_processing(models):
         type="primary",
     )
     st.caption(
-        "Batch predictions are a preview and are not saved to the live ticket database."
+        "Batch predictions are only a preview unless you explicitly save them as demo records."
     )
+    if valid_rows.any():
+        with st.form("batch_demo_import_form"):
+            st.caption(
+                "Save all readable rows from this upload to Ticket management → "
+                "All including demo records. Unreadable rows are excluded; demo "
+                "records are not counted as live customer tickets."
+            )
+            confirmed = st.checkbox(
+                "I understand these rows will be marked as demo records.",
+                key="batch_all_demo_confirm",
+            )
+            submitted = st.form_submit_button("Save classified tickets as demos")
+        if submitted:
+            if not confirmed:
+                st.error("Confirm that the imported rows will be marked as demo records.")
+            else:
+                try:
+                    outcome = import_batch_predictions(
+                        data.loc[valid_rows],
+                        uploaded.getvalue(),
+                        DATABASE_PATH,
+                    )
+                except (ValueError, sqlite3.Error) as error:
+                    st.error(f"Could not save batch results: {error}")
+                else:
+                    st.success(
+                        f"Saved {outcome['imported']:,} demo tickets; "
+                        f"{outcome['skipped']:,} duplicates were already saved. "
+                        "Open Ticket management and select "
+                        "'All including demo records' to access them."
+                    )
+    else:
+        st.info("There are no readable complaints to save.")
 
 
 def _render_admin_import():

@@ -8,6 +8,7 @@ from src.dashboard import build_dashboard_data
 from src.database import (
     CUSTOMER_RECORD,
     DEMO_RECORD,
+    add_ticket_reply,
     create_ticket,
     delete_ticket,
     get_all_tickets,
@@ -15,6 +16,7 @@ from src.database import (
     get_department_statistics,
     get_priority_statistics,
     get_ticket_by_id,
+    get_ticket_replies,
     initialize_database,
     update_ticket_status,
 )
@@ -22,6 +24,7 @@ from src.preprocess import load_dataset_with_report
 from src.ticket_manager import (
     category_for_department,
     classify_complaint,
+    import_batch_predictions,
     import_dataset_tickets,
     validate_customer_submission,
 )
@@ -92,6 +95,28 @@ class TicketSystemTests(unittest.TestCase):
         self.assertEqual(ticket["status"], "In Progress")
         self.assertEqual(len(get_all_tickets(self.database_path)), 1)
 
+    def test_ticket_response_notes_persist_and_are_deleted_with_ticket(self):
+        ticket_id = create_ticket(
+            customer_name="Customer",
+            email="customer@example.com",
+            ticket_text="Package is delayed.",
+            department="Shipping",
+            urgency="High",
+            database_path=self.database_path,
+        )
+
+        with self.assertRaisesRegex(ValueError, "cannot be empty"):
+            add_ticket_reply(ticket_id, "  ", self.database_path)
+        add_ticket_reply(ticket_id, "We are checking the carrier status.", self.database_path)
+        replies = get_ticket_replies(ticket_id, self.database_path)
+        self.assertEqual(len(replies), 1)
+        self.assertEqual(
+            replies[0]["reply_text"], "We are checking the carrier status."
+        )
+
+        delete_ticket(ticket_id, self.database_path)
+        self.assertEqual(get_ticket_replies(ticket_id, self.database_path), [])
+
     def test_dashboard_statistics_exclude_demo_examples(self):
         create_ticket(
             customer_name="Customer",
@@ -152,6 +177,63 @@ class TicketSystemTests(unittest.TestCase):
         self.assertEqual(first, {"imported": 1, "skipped": 0})
         self.assertEqual(second, {"imported": 0, "skipped": 1})
         self.assertEqual(get_dashboard_statistics(self.database_path)["total"], 0)
+
+    def test_batch_predictions_can_be_saved_as_idempotent_demo_tickets(self):
+        frame = pd.DataFrame(
+            [
+                {
+                    "ticket_text": "My package is delayed.",
+                    "predicted_department": "Shipping",
+                    "predicted_urgency": "High",
+                },
+                {
+                    "ticket_text": "I cannot access my account.",
+                    "predicted_department": "Account",
+                    "predicted_urgency": "Medium",
+                },
+            ]
+        )
+
+        first = import_batch_predictions(frame, b"uploaded csv", self.database_path)
+        second = import_batch_predictions(frame, b"uploaded csv", self.database_path)
+
+        self.assertEqual(first, {"imported": 2, "skipped": 0})
+        self.assertEqual(second, {"imported": 0, "skipped": 2})
+        tickets = get_all_tickets(self.database_path)
+        self.assertEqual(set(tickets["record_type"]), {DEMO_RECORD})
+        self.assertEqual(
+            set(zip(tickets["department"], tickets["urgency"])),
+            {("Shipping", "High"), ("Account", "Medium")},
+        )
+        statistics = get_dashboard_statistics(self.database_path)
+        self.assertEqual(statistics["total"], 0)
+        self.assertEqual(statistics["demo_imported"], 2)
+
+    def test_selected_batch_query_can_be_saved_without_other_rows(self):
+        frame = pd.DataFrame(
+            [
+                {
+                    "ticket_text": "First complaint.",
+                    "predicted_department": "Billing",
+                    "predicted_urgency": "Low",
+                },
+                {
+                    "ticket_text": "Selected complaint.",
+                    "predicted_department": "Shipping",
+                    "predicted_urgency": "High",
+                },
+            ]
+        )
+
+        outcome = import_batch_predictions(
+            frame.loc[[1]], b"two complaint upload", self.database_path
+        )
+
+        self.assertEqual(outcome, {"imported": 1, "skipped": 0})
+        tickets = get_all_tickets(self.database_path)
+        self.assertEqual(len(tickets), 1)
+        self.assertEqual(tickets.iloc[0]["ticket_text"], "Selected complaint.")
+        self.assertEqual(tickets.iloc[0]["record_type"], DEMO_RECORD)
 
     def test_dataset_requires_expected_columns_and_multiple_labels(self):
         with tempfile.TemporaryDirectory() as temporary_directory:

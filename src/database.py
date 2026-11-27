@@ -16,7 +16,9 @@ DEFAULT_DATABASE_PATH = (
 def _connect(database_path=DEFAULT_DATABASE_PATH):
     path = Path(database_path)
     path.parent.mkdir(parents=True, exist_ok=True)
-    return sqlite3.connect(path, timeout=10)
+    connection = sqlite3.connect(path, timeout=10)
+    connection.execute("PRAGMA foreign_keys = ON")
+    return connection
 
 
 @contextmanager
@@ -66,6 +68,25 @@ def initialize_database(database_path=DEFAULT_DATABASE_PATH):
             """
             CREATE INDEX IF NOT EXISTS idx_tickets_urgency
             ON tickets (urgency)
+            """
+        )
+        connection.execute(
+            """
+            CREATE TABLE IF NOT EXISTS ticket_replies (
+                reply_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                ticket_id TEXT NOT NULL,
+                author TEXT NOT NULL DEFAULT 'Support agent',
+                reply_text TEXT NOT NULL CHECK (length(trim(reply_text)) > 0),
+                created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (ticket_id) REFERENCES tickets(ticket_id)
+                    ON DELETE CASCADE
+            )
+            """
+        )
+        connection.execute(
+            """
+            CREATE INDEX IF NOT EXISTS idx_ticket_replies_ticket_id
+            ON ticket_replies (ticket_id, created_at)
             """
         )
 
@@ -235,6 +256,49 @@ def delete_ticket(ticket_id, database_path=DEFAULT_DATABASE_PATH):
         )
         if cursor.rowcount == 0:
             raise ValueError(f"Ticket {ticket_id} was not found.")
+
+
+def add_ticket_reply(ticket_id, reply_text, database_path=DEFAULT_DATABASE_PATH):
+    if not str(reply_text or "").strip():
+        raise ValueError("Response note cannot be empty.")
+    with _database_connection(database_path) as connection:
+        exists = connection.execute(
+            "SELECT 1 FROM tickets WHERE ticket_id = ?",
+            (str(ticket_id),),
+        ).fetchone()
+        if exists is None:
+            raise ValueError(f"Ticket {ticket_id} was not found.")
+        cursor = connection.execute(
+            """
+            INSERT INTO ticket_replies (ticket_id, reply_text)
+            VALUES (?, ?)
+            """,
+            (str(ticket_id), str(reply_text).strip()),
+        )
+        return cursor.lastrowid
+
+
+def get_ticket_replies(ticket_id, database_path=DEFAULT_DATABASE_PATH):
+    with _database_connection(database_path) as connection:
+        rows = connection.execute(
+            """
+            SELECT reply_id, ticket_id, author, reply_text, created_at
+            FROM ticket_replies
+            WHERE ticket_id = ?
+            ORDER BY created_at, reply_id
+            """,
+            (str(ticket_id),),
+        ).fetchall()
+    return [
+        {
+            "reply_id": row[0],
+            "ticket_id": row[1],
+            "author": row[2],
+            "reply_text": row[3],
+            "created_at": row[4],
+        }
+        for row in rows
+    ]
 
 
 def get_dashboard_statistics(database_path=DEFAULT_DATABASE_PATH):

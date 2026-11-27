@@ -132,6 +132,41 @@ def import_dataset_tickets(frame, database_path=None):
     return import_demo_tickets(records, database_path)
 
 
+def import_batch_predictions(frame, source_content, database_path=None):
+    required_columns = {
+        "ticket_text",
+        "predicted_department",
+        "predicted_urgency",
+    }
+    missing_columns = required_columns.difference(frame.columns)
+    if missing_columns:
+        raise ValueError(
+            "Batch results are missing required columns: "
+            + ", ".join(sorted(missing_columns))
+        )
+
+    source_digest = hashlib.sha256(source_content).hexdigest()
+    records = []
+    for row_index, row in frame.iterrows():
+        ticket_text = str(row["ticket_text"]).strip()
+        department = str(row["predicted_department"]).strip()
+        urgency = str(row["predicted_urgency"]).strip()
+        if not ticket_text or not department or not urgency:
+            raise ValueError("Batch results contain an empty ticket or prediction.")
+        records.append(
+            {
+                "ticket_text": ticket_text,
+                "department": department,
+                "urgency": urgency,
+                "source_key": f"batch:{source_digest}:{row_index}",
+            }
+        )
+
+    if database_path is None:
+        return import_demo_tickets(records)
+    return import_demo_tickets(records, database_path)
+
+
 def recommended_support(display_department):
     return _SUPPORT_RECOMMENDATIONS.get(
         display_department,
