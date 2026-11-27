@@ -80,6 +80,27 @@ st.markdown(
     [data-testid="stSidebar"] [data-baseweb="select"] * { color: #17263c; }
     .block-container { padding-top: 2rem; padding-bottom: 3rem; max-width: 1500px; }
     h1, h2, h3 { color: var(--navy); letter-spacing: -0.025em; }
+    [data-testid="stMain"] [data-testid="stWidgetLabel"],
+    [data-testid="stMain"] [data-testid="stWidgetLabel"] p {
+        color: var(--ink) !important;
+    }
+    [data-testid="stMain"] [data-baseweb="input"] > div,
+    [data-testid="stMain"] [data-baseweb="textarea"] > div,
+    [data-testid="stMain"] [data-baseweb="select"] > div {
+        background-color: var(--surface) !important;
+        border-color: #cbd5e1 !important;
+    }
+    [data-testid="stMain"] [data-baseweb="input"] input,
+    [data-testid="stMain"] [data-baseweb="textarea"] textarea {
+        color: var(--ink) !important;
+        -webkit-text-fill-color: var(--ink);
+        caret-color: var(--navy);
+    }
+    [data-testid="stMain"] [data-testid="stForm"] {
+        background: var(--surface);
+        border-color: #cbd5e1;
+        border-radius: 12px;
+    }
     [data-testid="stMetric"] {
         background: var(--surface); border: 1px solid var(--line);
         border-radius: 14px; padding: 18px 20px; box-shadow: 0 3px 14px #10233f0a;
@@ -88,8 +109,23 @@ st.markdown(
     [data-testid="stMetricValue"] { color: var(--navy); }
     div.stButton > button[kind="primary"] {
         background: var(--navy); border-color: var(--navy); border-radius: 9px;
+        color: #ffffff !important;
     }
-    div.stButton > button { border-radius: 9px; }
+    [data-testid="stMain"] [data-testid="stButton"] > button {
+        color: var(--navy) !important;
+        background: var(--surface) !important;
+        border-color: #cbd5e1 !important;
+        border-radius: 9px;
+    }
+    [data-testid="stMain"] [data-testid="stButton"] > button:hover {
+        background: #eef4ff !important;
+        border-color: var(--blue) !important;
+    }
+    [data-testid="stMain"] [data-testid="stFormSubmitButton"] > button,
+    [data-testid="stMain"] [data-testid="stDownloadButton"] > button {
+        color: #ffffff !important;
+        border-radius: 9px;
+    }
     .category-card, .sample-card {
         background: var(--surface); border: 1px solid var(--line);
         border-radius: 14px; padding: 20px; min-height: 170px;
