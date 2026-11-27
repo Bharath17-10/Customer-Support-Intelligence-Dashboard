@@ -378,7 +378,12 @@ def _render_overview(statistics, dashboard_data):
     _render_analytics(customer_tickets, dashboard_data)
 
 
-def _render_ticket_details(ticket_id, key_suffix, show_response_notes=False):
+def _render_ticket_details(
+    ticket_id,
+    key_suffix,
+    show_status_controls=False,
+    show_response_notes=False,
+):
     try:
         ticket = get_ticket_by_id(ticket_id, DATABASE_PATH)
     except sqlite3.Error as error:
@@ -419,7 +424,7 @@ def _render_ticket_details(ticket_id, key_suffix, show_response_notes=False):
 
     if ticket["record_type"] == DEMO_RECORD:
         st.caption("Demo records are excluded from live customer ticket counts.")
-    else:
+    elif show_status_controls:
         with st.form(f"status_form_{key_suffix}_{ticket_id}"):
             new_status = st.selectbox(
                 "Update ticket status",
@@ -582,6 +587,7 @@ def _render_ticket_management(tickets):
         _render_ticket_details(
             st.session_state["selected_ticket_id"],
             "management",
+            show_status_controls=True,
             show_response_notes=True,
         )
 
